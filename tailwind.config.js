@@ -2,6 +2,12 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        like: "#FF69B4"
+      },
+      dropShadow: {
+        "like": "0px 0px 5px rgb(248, 41, 144)"
+      },
       animation: {
         fadeIn: "fadeIn 0.2s ease-in",
         // as of right now you cant configure dismiss time of a toast, its hardcoded to 1s
