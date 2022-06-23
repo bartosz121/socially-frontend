@@ -8,6 +8,8 @@ import { axiosI } from "../../api/axios";
 import { handleApiResponseError } from "../../api/axios";
 import PostActionButton from "../PostActionButton/PostActionButton";
 
+import { LikeResponse } from "../../types/post.types";
+
 import {
   LIKE_HEX_COLOR,
   formatNumberToDisplay,
@@ -53,7 +55,7 @@ const PostBottom = ({
   useEffect(() => {
     if (user?.id) {
       axiosI
-        .get(`/users/${user.id}/liked/${postId}/`)
+        .get(`/users/${user.username}/liked/${postId}/`)
         .then((res) => {
           setUserLiked(res.data.is_liked);
         })
@@ -67,7 +69,7 @@ const PostBottom = ({
     if (user) {
       const action = userLiked ? "dislike" : "like";
       await axiosI
-        .post(`/posts/${postId}/like/`, {
+        .post<LikeResponse>(`/posts/${postId}/like/`, {
           action: action,
         })
         .then((res) => {
