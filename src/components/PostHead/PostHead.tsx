@@ -67,7 +67,7 @@ const PostHead = ({
 
   return (
     <div className="flex flex-row justify-start items-center">
-      <Link to="/">
+      <Link to={`/profiles/${postAuthor.username}/`}>
         <figure className="avatar cursor-pointer">
           <div className="w-14 rounded-xl">
             <img src={postAuthor.profile_picture} alt="Profile picture" />
@@ -75,7 +75,10 @@ const PostHead = ({
         </figure>
       </Link>
       <div className="flex flex-col ml-3">
-        <Link to="/" className="font-semibold hover:underline cursor-pointer">
+        <Link
+          to={`/profiles/${postAuthor.username}/`}
+          className="font-semibold hover:underline cursor-pointer"
+        >
           {postAuthor.username}
         </Link>
         <div
@@ -123,7 +126,9 @@ const PostHead = ({
             className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to="/">Author profile</Link>
+              <Link to={`/profiles/${postAuthor.username}`}>
+                Author profile
+              </Link>
             </li>
             <li>
               <Link to={`/posts/${postId}`}>Comments</Link>
