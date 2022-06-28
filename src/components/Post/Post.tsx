@@ -6,14 +6,17 @@ import PostBody from "../PostBody/PostBody";
 import PostBottom from "../PostBottom/PostBottom";
 
 import { PostT } from "../../types/post.types";
-import PostForm from "../PostForm/PostForm";
 
 type Props = {
   post: PostT;
   isDetailView?: boolean;
 };
 
-const Post = ({ post, isDetailView = false }: Props) => {
+export const renderPost = (post: PostT, _?: number) => (
+  <Post post={post} key={post.id} />
+);
+
+export const Post = ({ post, isDetailView = false }: Props) => {
   const {
     id: postId,
     parent_post: parentPost,
@@ -66,5 +69,3 @@ const Post = ({ post, isDetailView = false }: Props) => {
     </AnimatePresence>
   );
 };
-
-export default Post;
