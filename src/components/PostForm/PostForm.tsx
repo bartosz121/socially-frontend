@@ -159,7 +159,7 @@ const PostForm = ({
                 className="relative cursor-pointer bg-base-100 rounded-md font-medium text-neutral text-opacity-50 hover:text-primary focus-within:outline-none"
               >
                 <svg
-                  className="mx-auto h-12 w-12 text-neutral opacity-50 hover:text-primary hover:opacity-100 transition-opacity"
+                  className="mx-auto h-12 w-12 text-primary opacity-50 hover:text-primary hover:opacity-100 transition-opacity"
                   stroke="currentColor"
                   fill="none"
                   viewBox="0 0 48 48"
