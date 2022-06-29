@@ -2,6 +2,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      maxWidth: {
+        "screen-3xl": "1920px"
+      },
       colors: {
         like: "#FF69B4"
       },
