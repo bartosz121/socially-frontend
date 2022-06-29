@@ -7,16 +7,21 @@ import PostBottom from "../PostBottom/PostBottom";
 
 import { PostT } from "../../types/post.types";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   post: PostT;
   isDetailView?: boolean;
-};
+}
 
 export const renderPost = (post: PostT, _?: number) => (
   <Post post={post} key={post.id} />
 );
 
-export const Post = ({ post, isDetailView = false }: Props) => {
+export const Post = ({
+  post,
+  className = "w-full md:w-3/4 max-w-4xl",
+  isDetailView = false,
+  ...props
+}: Props) => {
   const {
     id: postId,
     parent_post: parentPost,
@@ -40,9 +45,12 @@ export const Post = ({ post, isDetailView = false }: Props) => {
           animate={{ y: "0", opacity: 1 }}
           exit={{ y: "-20vh", opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full md:w-3/4 max-w-4xl"
+          className={className}
         >
-          <div className="card w-full bg-base-300 shadow-xl overflow-visible">
+          <div
+            className="card w-full bg-base-300 shadow-xl overflow-visible"
+            {...props}
+          >
             <div className="card-body">
               <PostHead
                 postId={postId}

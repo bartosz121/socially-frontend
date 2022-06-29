@@ -8,14 +8,13 @@ import { PostRequestData, PostT } from "../../types/post.types";
 
 import Spinner from "../Spinner/Spinner";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   newPostCallback: (post: PostT) => void;
-  className?: string;
   postData?: PostT;
   parentPostId?: number;
   textAreaPlaceholder?: string;
   submitBtnText?: string;
-};
+}
 
 const PostForm = ({
   newPostCallback,
@@ -24,6 +23,7 @@ const PostForm = ({
   parentPostId,
   textAreaPlaceholder = "What's on your mind?",
   submitBtnText = "Send",
+  ...props
 }: Props) => {
   const [image, setImage] = useState<File>();
   const [preview, setPreview] = useState<string>(); // base64
@@ -134,11 +134,7 @@ const PostForm = ({
   return (
     <>
       {loading && <Spinner className="absolute mt-4 left-1/2 z-10" />}
-      <section
-        className={`mx-auto w-full md:w-3/4 max-w-4xl ${className} ${
-          loading && "opacity-50"
-        }`}
-      >
+      <section className={`${className} ${loading && "opacity-50"}`} {...props}>
         <form
           onSubmit={async (e) => await handleSubmit(e)}
           method="POST"
