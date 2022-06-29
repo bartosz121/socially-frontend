@@ -38,12 +38,16 @@ const PostDetail = (props: Props) => {
     <>
       {postData ? (
         <div className="mt-4 w-full flex flex-col justify-center items-center">
-          <Post post={postData} isDetailView={true} />
+          <Post
+            className="w-full md:w-3/4 max-w-4xl"
+            post={postData}
+            isDetailView={true}
+          />
           <PostForm
+            className="mt-12 mx-auto w-full md:w-3/4 max-w-4xl"
             newPostCallback={(post: PostT) =>
               setNewPosts((state) => [post, ...state])
             }
-            className="mt-12"
             parentPostId={postData.id}
             submitBtnText="Reply"
             textAreaPlaceholder="Reply..."
