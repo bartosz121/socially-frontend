@@ -7,6 +7,7 @@ import { useAuth } from "../../services/auth.serivce";
 import { toastError } from "../../services/toast.service";
 
 import { PostT } from "../../types/post.types";
+import PageWrapper from "../PageWrapper/PageWrapper";
 
 import PostForm from "../PostForm/PostForm";
 
@@ -41,14 +42,14 @@ const PostEdit = (props: Props) => {
   }, [id]);
 
   return (
-    <div className="w-full mt-4">
+    <PageWrapper>
       <h2 className="text-2xl text-center">Update Post #{id}</h2>
       <PostForm
         className="w-full mt-4"
         newPostCallback={() => navigate(`/posts/${id}`)}
         postData={postData}
       />
-    </div>
+    </PageWrapper>
   );
 };
 
