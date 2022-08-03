@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../services/auth.serivce";
 
@@ -20,7 +20,7 @@ const SignUpForm = (props: Props) => {
   const navigator = useNavigate();
   const location = useLocation();
 
-  const { user, register } = useAuth();
+  const { register } = useAuth();
 
   const togglePasswordsShown = () => {
     setPasswordsShown((state) => !state);
@@ -44,16 +44,10 @@ const SignUpForm = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      navigator("/", { replace: true });
-    }
-  }, []);
-
   return (
     <section className="relative">
       {loading && (
-        <div className="absolute w-auto h-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
           <Spinner />
         </div>
       )}

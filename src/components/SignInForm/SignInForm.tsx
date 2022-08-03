@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-import { toastError, toastSuccess } from "../../services/toast.service";
+import { toastSuccess } from "../../services/toast.service";
 import { useAuth } from "../../services/auth.serivce";
 
 import Spinner from "../Spinner/Spinner";
@@ -20,7 +19,7 @@ const SignInForm = (props: Props) => {
   const navigator = useNavigate();
   const location = useLocation();
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const togglePasswordShown = () => {
     setPasswordShown((state) => !state);
@@ -44,16 +43,10 @@ const SignInForm = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      navigator("/", { replace: true });
-    }
-  }, []);
-
   return (
     <section className="relative">
       {loading && (
-        <div className="absolute w-auto h-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
           <Spinner />
         </div>
       )}
