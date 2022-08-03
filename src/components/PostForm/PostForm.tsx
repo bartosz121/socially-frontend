@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { axiosI, handleApiResponseError } from "../../api/axios";
-import { toastSuccess } from "../../services/toast.service";
+import { imgToFile } from "../../utils";
+import { toastError, toastSuccess } from "../../services/toast.service";
 
 import { PostRequestData, PostT } from "../../types/post.types";
 
+import ImagePreview from "../ImagePreview/ImagePreview";
 import Spinner from "../Spinner/Spinner";
+import ImageUploadInput from "../ImageUploadInput/ImageUploadInput";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   newPostCallback: (post: PostT) => void;
@@ -34,37 +37,28 @@ const PostForm = ({
 
   useEffect(() => {
     if (image) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-
-      reader.readAsDataURL(image);
+      setPreview(URL.createObjectURL(image));
     } else {
       setPreview(undefined);
     }
   }, [image]);
 
   useEffect(() => {
-    const imgToFile = async () => {
-      await fetch(postData!.picture_url!)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const extension = postData!.picture_url!.substring(
-            postData!.picture_url!.lastIndexOf(".") + 1
-          );
-          setImage(new File([blob], `img.${extension}`));
-        });
+    const addDataToForm = async () => {
+      if (postData?.body) {
+        setTextAreaValue(postData.body);
+      }
+
+      if (postData?.picture_url) {
+        const img = await imgToFile(postData.picture_url);
+        if (img) {
+          setImage(img);
+        } else {
+          toastError("Error reading post image");
+        }
+      }
     };
-
-    if (postData?.body) {
-      setTextAreaValue(postData.body);
-    }
-
-    if (postData?.picture_url) {
-      imgToFile();
-    }
+    addDataToForm();
   }, [postData]);
 
   const createPost = async (data: PostRequestData) => {
@@ -150,41 +144,10 @@ const PostForm = ({
               onChange={(e) => setTextAreaValue(e.target.value)}
             ></textarea>
             <div className="flex flex-row md:flex-col gap-2">
-              <label
-                htmlFor="file-upload"
-                className="relative cursor-pointer bg-base-100 rounded-md font-medium text-neutral text-opacity-50 hover:text-primary focus-within:outline-none"
-              >
-                <svg
-                  className="mx-auto h-12 w-12 text-primary opacity-50 hover:text-primary hover:opacity-100 transition-opacity"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <input
-                  id="file-upload"
-                  name="picutre_url"
-                  type="file"
-                  accept="image/*"
-                  className="sr-only"
-                  disabled={loading}
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      const file = e.target.files[0];
-                      setImage(file);
-                    } else {
-                      setImage(undefined);
-                    }
-                  }}
-                />
-              </label>
+              <ImageUploadInput
+                isLoading={loading}
+                onChangeHandler={setImage}
+              />
               <button
                 className={`btn btn-primary px-16 md:px-4 ${
                   (loading || textAreaValue.trim().length < 1) && "btn-disabled"
@@ -197,26 +160,13 @@ const PostForm = ({
           </div>
         </form>
         {preview && (
-          <div className="artboard mx-auto">
-            <img
-              className="mt-2 w-full max-h-96 object-contain"
-              src={preview}
-              alt="Post image preview"
-            />
-            <div className="my-2 w-full text-center">
-              <button
-                onClick={() => {
-                  setImage(undefined);
-                  setPreview(undefined);
-                }}
-                className={`btn btn-error btn-wide ${
-                  loading && "btn-disabled"
-                }`}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+          <ImagePreview
+            imgSrc={preview}
+            deleteCallback={() => {
+              setImage(undefined);
+              setPreview(undefined);
+            }}
+          />
         )}
       </section>
     </>
