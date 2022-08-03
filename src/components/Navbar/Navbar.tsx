@@ -144,7 +144,9 @@ const Navbar = (props: Props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/user/settings">Settings</Link>
+                        <Link to="/user/settings" reloadDocument={true}>
+                          Settings
+                        </Link>
                       </li>
                       <li>
                         <span onClick={async (e) => await handleLogoutClick(e)}>
