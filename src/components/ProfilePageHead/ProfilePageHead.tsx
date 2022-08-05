@@ -92,7 +92,6 @@ const ProfileDetailHead = ({ username }: Props) => {
           action: action,
         })
         .then(async (res) => {
-          console.log(res);
           setFollowersCounter(res.data.followers_count);
           setIsUserFollowing(!isUserFollowing);
           await fetchFollowCounters();
@@ -114,7 +113,7 @@ const ProfileDetailHead = ({ username }: Props) => {
         <div className="mx-auto">
           <div className="mt-4">
             <img
-              className="rounded-xl object-cover"
+              className="w-full max-h-52 rounded-xl object-fill"
               src={profileData.profile_background}
               alt="Profile background"
             />
